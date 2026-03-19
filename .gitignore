@@ -2,8 +2,10 @@
 __pycache__/
 checkpoints/
 radarfields/__pycache__/
-temps/
-preprocess_results/
+preprocess_results/occupancy_component/preprocess_results/
+preprocess_results/thresholded_fft/seq10/
+preprocess_results/preprocess_results.json
+data/seq10/radar/
 workspace/
-data/data/radar
-data/seq10
+data/data/radar/
+data/data/pose.png

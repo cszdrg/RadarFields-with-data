@@ -243,19 +243,19 @@ def plot_trajectory(poses, path, size=0.05):
     plt.close()
 # ------------------------------
 # 删除文件
-folder = Path("preprocess_results\\occupancy_component\\preprocess_results")
+folder = Path("preprocess_results/occupancy_component/preprocess_results")
 for item in folder.iterdir():
     if item.is_file():
         item.unlink()              # 删除文件
     elif item.is_dir():
         shutil.rmtree(item)        # 删除子目录及其内容
-folder = Path("preprocess_results\\thresholded_fft\\seq10")
+folder = Path("preprocess_results/thresholded_fft/seq10")
 for item in folder.iterdir():
     if item.is_file():
         item.unlink()              # 删除文件
     elif item.is_dir():
         shutil.rmtree(item)        # 删除子目录及其内容
-folder = Path("data\\seq10\\radar")
+folder = Path("data/seq10/radar")
 for item in folder.iterdir():
     if item.is_file():
         item.unlink()              # 删除文件
@@ -303,7 +303,7 @@ radar2worlds = []
 timestamps_radar = []
 
 # 根据帧名获取位姿矩阵 生成数据
-FFTPath = "data\\data\\radar"
+FFTPath = "data/data/radar"
 
 xx = []
 yy = []
@@ -323,7 +323,7 @@ for frame_id, timestamp in tqdm.tqdm(frames):
     filename = timestamp
     old_path = os.path.join(FFTPath, filename)
     new_filename = timestamp
-    new_path = os.path.join("data\\seq10\\radar", new_filename)
+    new_path = os.path.join("data/seq10/radar", new_filename)
     shutil.copy2(old_path, new_path)
 
     FFT_Data_Sim = cv2.imread(old_path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
@@ -344,14 +344,14 @@ maxxFFT = all_FFT_Data_Sim.max()
 print("maxx FFT = ", maxxFFT)
 # thre = np.median(all_FFT_Data_Sim)
 thre = 0.15
-paths = sorted(glob.glob(os.path.join("data\\seq10\\radar\\*.png")))
+paths = sorted(glob.glob(os.path.join("data/seq10/radar/*.png")))
 for t, path in enumerate(paths):
     base = os.path.splitext(os.path.basename(path))[0]
     FFT_Data_Sim = cv2.imread(path, cv2.IMREAD_GRAYSCALE).astype(np.float32)
     FFT_Data_Sim = FFT_Data_Sim[:, 11:1500] / maxxFFT
     FFT_Data_Sim[FFT_Data_Sim < thre] = 0
     # FFT_Data_Sim = FFT_Data_Sim  / maxxFFT
-    np.save(os.path.join('preprocess_results\\thresholded_fft\\seq10', f"{base}.npy"), FFT_Data_Sim)
+    np.save(os.path.join('preprocess_results/thresholded_fft/seq10', f"{base}.npy"), FFT_Data_Sim)
 
 all_indices = np.arange(0, 80)  # 0~80 共 80 个
 np.random.shuffle(all_indices)  # 打乱顺序
@@ -382,7 +382,7 @@ data = {
     "scalers": scalers
 }
 plot_trajectory(torch.tensor(data['radar2worlds']), "data/data/pose", size=0.05)
-with open('preprocess_results\\preprocess_results.json', 'w', encoding='utf-8') as f:
+with open('preprocess_results/preprocess_results.json', 'w', encoding='utf-8') as f:
     json.dump(data, f, indent=2)
 
 print("done")
